@@ -10,9 +10,9 @@ namespace TestDataSet
     {
         static void Main(string[] args)
         {
-            var dataSet = new DataSet("Persons");
-            var data = new List<Person>
+            var persons = new List<Person>
             {
+                #region "big data"
                 //new Person("Russia", 18, "Male", 30000),
                 //new Person("Russia", 18, "Male", 180000),
                 //new Person("Russia", 40, "Male", 50000),
@@ -21,6 +21,24 @@ namespace TestDataSet
                 //new Person("Russia", 18, "Female", 20000),
                 //new Person("Russia", 40, "Female", 55000),
                 //new Person("Russia", 40, "Female", 70000),
+
+                //new Person("USA", 20, "Male", 1000),
+                //new Person("USA", 20, "Male", 3000),
+                //new Person("USA", 30, "Male", 2000),
+                //new Person("USA", 30, "Male", 4000),
+                //new Person("USA", 40, "Male", 4000),
+                //new Person("USA", 40, "Male", 6000),
+                //new Person("USA", 50, "Male", 9000),
+                //new Person("USA", 50, "Male", 11000),
+                //new Person("USA", 20, "Female", 2000),
+                //new Person("USA", 20, "Female", 4000),
+                //new Person("USA", 30, "Female", 4000),
+                //new Person("USA", 20, "Female", 6000),
+                //new Person("USA", 40, "Female", 6000),
+                //new Person("USA", 20, "Female", 8000),
+                //new Person("USA", 50, "Female", 9000),
+                //new Person("USA", 20, "Female", 11000),
+                #endregion
 
                 new Person("USA", 20, "Male", 2000),
                 new Person("USA", 30, "Male", 3000),
@@ -38,7 +56,20 @@ namespace TestDataSet
                 new Person("UK", 20, "Female", 2000),
                 new Person("UK", 30, "Female", 3000),
                 new Person("UK", 40, "Female", 4000),
-                new Person("UK", 50, "Female", 5000),
+                new Person("UK", 50, "Female", 5000)
+            };
+
+            var obj = new MyDataSet(persons);
+            foreach (var country in obj.Countries)
+                foreach (var age in obj.Ages)
+                {
+                    var average = obj.GetAverageGrossSalary(country, age);
+                    obj.SetAvarageGrossSalary(country, age, average);
+                    Console.WriteLine($"{country} age: {age} average: {average}");
+                }
+                    
+
+            Console.ReadLine();
         }
     }
 }
