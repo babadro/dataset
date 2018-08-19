@@ -8,6 +8,43 @@ namespace TestDataSet
 {
     class Program
     {
+        static int tableWidth = 77;
+
+        static void PrintLine()
+        {
+            Console.WriteLine(new string('-', tableWidth));
+        }
+
+        static void PrintRow(params (string, int)[] columns)
+        {
+            var columnsCount = columns.Aggregate<>;
+            int width = (tableWidth - columns.Length) / columns.Length;
+            string row = "|";
+
+            foreach (var column in columns)
+            {
+                var w = width * column.Item2;
+                row += $"{AlignCentre(column.Item1, width)}|";
+            }
+
+            Console.WriteLine(row);
+        }
+
+        static string AlignCentre(string text, int width)
+        {
+            if (text != null)
+                text = text.Length > width ? text.Substring(0, width - 3) + "..." : text;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return new string(' ', width);
+            }
+            else
+            {
+                return text.PadRight(width - (width - text.Length) / 2).PadLeft(width);
+            }
+        }
+
         static void Main(string[] args)
         {
             var persons = new List<Person>
@@ -71,7 +108,9 @@ namespace TestDataSet
             //    Console.WriteLine($"{country} age: {age} average: {average}");
             //}
 
-            Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,10}|{3,10}|", "first row", 11, true, 33.2));
+            PrintRow(new[] { ("Average", 1), ("Male", 4), ("Female", 4) });
+            PrintRow(new[] { "", "20", "30", "40", "50", "20", "30", "40", "50" });
+
             Console.ReadLine();
         }
     }
