@@ -27,9 +27,18 @@ namespace TestDataSet
                 .Average(p => p.GrossSalary);
         }
 
+        public double GetAverageGrossSalary(string country, int age, string gender)
+        {
+            return _persons
+                .Where(p => p.Country == country && p.Age == age && p.Gender == gender)
+                .Average(p => p.GrossSalary);
+        }
+
         public IEnumerable<string> Countries => _persons.Select(p => p.Country).Distinct();
 
         public IEnumerable<int> Ages => _persons.Select(p => p.Age).Distinct();
+
+        public IEnumerable<string> Genders => _persons.Select(p => p.Gender).Distinct();
 
         public void SetAvarageGrossSalary(string country, int age, double average)
         {

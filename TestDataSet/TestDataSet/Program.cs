@@ -62,12 +62,15 @@ namespace TestDataSet
             var obj = new MyDataSet(persons);
             foreach (var country in obj.Countries)
                 foreach (var age in obj.Ages)
-                {
-                    var average = obj.GetAverageGrossSalary(country, age);
-                    obj.SetAvarageGrossSalary(country, age, average);
-                    Console.WriteLine($"{country} age: {age} average: {average}");
-                }
-                    
+                    foreach (var gender in obj.Genders)
+                        Console.WriteLine($"{country} age: {age} gender: {gender} average: {obj.GetAverageGrossSalary(country, age, gender)}");
+
+            //{
+            //    var average = obj.GetAverageGrossSalary(country, age);
+            //    obj.SetAvarageGrossSalary(country, age, average);
+            //    Console.WriteLine($"{country} age: {age} average: {average}");
+            //}
+
 
             Console.ReadLine();
         }
