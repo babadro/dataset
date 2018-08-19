@@ -19,10 +19,21 @@ namespace TestDataSet
 
         public double GetAverageGrossSalary(string country, int age)
         {
-            if (_average.TryGetValue(new Tuple<string, int>(country, age), out double value)
+            if (_average.TryGetValue((country, age), out double average))
+                return average;
+
             return _persons
                 .Where(p => p.Country == country && p.Age == age)
                 .Average(p => p.GrossSalary);
+        }
+
+        public IEnumerable<string> Countries => _persons.Select(p => p.Country).Distinct();
+
+        public IEnumerable<int> Ages => _persons.Select(p => p.Age).Distinct();
+
+        public void SetAvarageGrossSalary(string country, int age, double average)
+        {
+            _average[(country, age)] = average;
         }
     }
 }
