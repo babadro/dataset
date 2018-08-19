@@ -71,7 +71,7 @@ namespace TestDataSet
             //    Console.WriteLine($"{country} age: {age} average: {average}");
             //}
 
-
+            Console.WriteLine(String.Format("|{0,10}|{1,10}|{2,10}|{3,10}|", "first row", 11, true, 33.2));
             Console.ReadLine();
         }
     }
