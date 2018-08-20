@@ -17,7 +17,7 @@ namespace TestDataSet
 
         static void PrintRow(params (string, int)[] columns)
         {
-            var columnsCount = columns.Aggregate<>;
+            //var columnsCount = columns.Aggregate<>;
             int width = (tableWidth - columns.Length) / columns.Length;
             string row = "|";
 
@@ -108,8 +108,12 @@ namespace TestDataSet
             //    Console.WriteLine($"{country} age: {age} average: {average}");
             //}
 
-            PrintRow(new[] { ("Average", 1), ("Male", 4), ("Female", 4) });
-            PrintRow(new[] { "", "20", "30", "40", "50", "20", "30", "40", "50" });
+            //PrintRow(new[] { ("Average", 1), ("Male", 4), ("Female", 4) });
+            //PrintRow(new[] { "", "20", "30", "40", "50", "20", "30", "40", "50" });
+
+            var person = persons.First();
+            var temp = person?.GetType().GetProperty("Gender")?.PropertyType;//.GetValue(person, null);
+            Console.WriteLine(temp);
 
             Console.ReadLine();
         }
