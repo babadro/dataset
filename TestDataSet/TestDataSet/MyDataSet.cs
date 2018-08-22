@@ -16,10 +16,10 @@ namespace TestDataSet
         //private Dictionary<string, object> _results;
         private Dictionary<string, T> _data;
         private Func<List<Person>, T> _aggregateFunc;
-        private string _row;
-        private string _group;
-        private PropertyInfo _rowInfo;
-        private PropertyInfo _groupInfo;
+        //private string _row;
+        //private string _group;
+        //private PropertyInfo _rowInfo;
+        //private PropertyInfo _groupInfo;
         private readonly IEnumerable<Item<Person>> _items;
 
         public MyDataSet(List<Person> persons)
@@ -39,8 +39,8 @@ namespace TestDataSet
                 throw new ArgumentNullException(nameof(group));
 
 
-            var rowInfo = typeof(Person).GetProperty(_row);
-            var groupInfo = typeof(Person).GetProperty(_group);
+            var rowInfo = typeof(Person).GetProperty(row);
+            var groupInfo = typeof(Person).GetProperty(group);
 
             if (rowInfo == null)
                 throw new ArgumentException($"Row {row} hasn't been found.", row);
@@ -50,9 +50,9 @@ namespace TestDataSet
             _persons = persons;
             _data = new Dictionary<string, T>();
             _aggregateFunc = aggregateFunc;
-            _row = row;
-            _group = group;
-            _items = _persons.Select(item => new Item<Person>(item, _rowInfo.GetValue(item), _groupInfo.GetValue(item)));
+            //_row = row;
+            //_group = group;
+            _items = _persons.Select(item => new Item<Person>(item, rowInfo.GetValue(item), groupInfo.GetValue(item)));
         }
         
         //public MyDataSet(List<Person> persons, string row, string[] groups, Func<IEnumerable<T>, string> aggregateFunc)
@@ -80,24 +80,11 @@ namespace TestDataSet
                 .Average(p => p.GrossSalary);
         }
 
-        public T GetValue(string prop1Val, string prop2Val, Func<List<Person>, T> aggregateFunc)
+        public T GetValue(object prop1Val, object prop2Val, Func<List<Person>, T> aggregateFunc)
         {
-            //var rowInfo = _persons.GetType().GetProperty(row);
-            //var rowType = rowInfo?.PropertyType;
-            var filteredPersons = _persons.Where(p =>
-                p.GetType().GetProperty(_row).GetValue(p, null).ToString() == prop1Val
-                && p.GetType().GetProperty(_group).GetValue(p, null).ToString() == prop2Val
-            );
-
-            
-
-            
-
-            var filteredPersons2 = _items.Where(item => prop1Val == null ?
-                item.RowVal == null
-                : item.RowVal != null && Object.Equals(item.RowVal, ))
-
-
+            var input = _items.Where(item => Equals(item.RowVal, prop1Val) && Equals(item.GroupVal, prop2Val)).Select(item => item.Value).ToList();
+            var result = aggregateFunc(input);
+            return result;
         }
 
         //private T3 GetValue<T1, T2, T3>(T1 row, T2 group, Func<List<Person>, T3> aggregateFunc)
