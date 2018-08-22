@@ -14,7 +14,7 @@ namespace TestDataSet
         private Dictionary<(string, int), double> _average;
         private Dictionary<(string, string, int), double> _average2;
         //private Dictionary<string, object> _results;
-        private Dictionary<string, T> _data;
+        private Dictionary<object[], T> _data;
         private Func<List<Person>, T> _aggregateFunc;
         //private string _row;
         //private string _group;
@@ -48,7 +48,7 @@ namespace TestDataSet
                 throw new ArgumentException($"Row {group} hasn't been found.", group);
 
             _persons = persons;
-            _data = new Dictionary<string, T>();
+            _data = new Dictionary<object[], T>();
             _aggregateFunc = aggregateFunc;
             //_row = row;
             //_group = group;
@@ -92,7 +92,15 @@ namespace TestDataSet
         //    return _persons
         //        .Where(p => p.row == row)
         //}
-        
+
+        public void SetValue(object row, object group, T value)
+        {
+            _data[new[] {row, group}] = value;
+        }
+
+        public IEnumerable<object> Rows => _items.Select(i => i.RowVal).Distinct();
+
+        public IEnumerable<object> Groups => _items.Select(i => i.GroupVal).Distinct();
 
         public IEnumerable<string> Countries => _persons.Select(p => p.Country).Distinct();
 

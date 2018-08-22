@@ -96,11 +96,13 @@ namespace TestDataSet
                 new Person("UK", 50, "Female", 5000)
             };
 
-            var obj = new MyDataSet(persons);
-            foreach (var country in obj.Countries)
-                foreach (var age in obj.Ages)
-                    foreach (var gender in obj.Genders)
-                        Console.WriteLine($"{country} age: {age} gender: {gender} average: {obj.GetAverageGrossSalary(country, age, gender)}");
+            Func<List<Person>, double> aggregateFunc = peopleList => { return peopleList.Average(p => p.GrossSalary); };
+
+            var obj = new MyDataSet<double>(persons, "Country", "Age", aggregateFunc);
+            //foreach (var country in obj.Countries)
+            //    foreach (var age in obj.Ages)
+            //        foreach (var gender in obj.Genders)
+            //            Console.WriteLine($"{country} age: {age} gender: {gender} average: {obj.GetAverageGrossSalary(country, age, gender)}");
 
             //{
             //    var average = obj.GetAverageGrossSalary(country, age);
