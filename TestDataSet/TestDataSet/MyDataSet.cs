@@ -102,9 +102,9 @@ namespace TestDataSet
             Data[new[] {row, group}] = value;
         }
 
-        public IEnumerable<object> Rows => _items.Select(i => i.RowVal).Distinct();
+        public IEnumerable<string> Rows => _items.Select(i => i.RowVal.ToString()).Distinct();
 
-        public IEnumerable<object> Groups => _items.Select(i => i.GroupVal).Distinct();
+        public IEnumerable<string> Groups => _items.Select(i => i.GroupVal.ToString()).Distinct();
 
         //public IEnumerable<string> Countries => _persons.Select(p => p.Country).Distinct();
         //
