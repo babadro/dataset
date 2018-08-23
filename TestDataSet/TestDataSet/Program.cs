@@ -113,9 +113,9 @@ namespace TestDataSet
             //PrintRow(new[] { ("Average", 1), ("Male", 4), ("Female", 4) });
             //PrintRow(new[] { "", "20", "30", "40", "50", "20", "30", "40", "50" });
 
-            var person = persons.First();
-            var temp = person?.GetType().GetProperty("Gender")?.PropertyType;//.GetValue(person, null);
-            Console.WriteLine(temp);
+            foreach (var country in obj.Rows)
+                foreach (var age in obj.Groups)
+                    Console.WriteLine($"{country} age: {age} average: {obj.Data[new[] {country, age}]}");
 
             Console.ReadLine();
         }
