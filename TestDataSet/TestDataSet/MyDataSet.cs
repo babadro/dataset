@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace TestDataSet
 {
-    public class MyDataSet<T>
+    public class MyDataSet<T1, T2>
     {
-        public Dictionary<string, T> Data;
-        private readonly IEnumerable<Item<Person>> _items;
+        public Dictionary<string, T2> Data;
+        private readonly IEnumerable<Item<T1>> _itemsInfo;
 
-        public MyDataSet(List<Person> persons, string row, string group, Func<List<Person>, T> aggregateFunc)
+        public MyDataSet(IEnumerable<T1> items, string row, string group, Func<IEnumerable<T1>, T2> aggregateFunc)
         {
-            if (persons == null)
-                throw new ArgumentNullException(nameof(persons));
+            if (items == null)
+                throw new ArgumentNullException(nameof(items));
             if (row == null)
                 throw new ArgumentNullException(nameof(row));
             if (group == null)
@@ -31,28 +31,28 @@ namespace TestDataSet
             if (groupInfo == null)
                 throw new ArgumentException($"Row {group} hasn't been found.", group);
             
-            Data = new Dictionary<string, T>();
-            _items = persons.Select(item => new Item<Person>(item, rowInfo.GetValue(item).ToString(), groupInfo.GetValue(item).ToString()));
+            Data = new Dictionary<string, T2>();
+            _itemsInfo = items.Select(item => new Item<T1>(item, rowInfo.GetValue(item).ToString(), groupInfo.GetValue(item).ToString()));
             foreach (var rowVal in Rows)
                 foreach (var groupVal in Groups)
                     SetValue(rowVal, groupVal, GetValue(rowVal, groupVal, aggregateFunc));
         }
 
-        public T GetValue(string prop1Val, string prop2Val, Func<List<Person>, T> aggregateFunc)
+        public T2 GetValue(string prop1Val, string prop2Val, Func<IEnumerable<T1>, T2> aggregateFunc)
         {
-         var input = _items.Where(item => string.Equals(item.RowVal.ToString(), prop1Val) && string.Equals(item.GroupVal.ToString(), prop2Val)).Select(item => item.Value).ToList();
+         var input = _itemsInfo.Where(item => string.Equals(item.RowVal.ToString(), prop1Val) && string.Equals(item.GroupVal.ToString(), prop2Val)).Select(item => item.Value);
             var result = aggregateFunc(input);
             return result;
         }
 
-        public void SetValue(object row, object group, T value)
+        public void SetValue(object row, object group, T2 value)
         {
             var key = string.Concat(row, group);
             Data[key] = value;
         }
 
-        public IEnumerable<string> Rows => _items.Select(i => i.RowVal.ToString()).Distinct();
+        public IEnumerable<string> Rows => _itemsInfo.Select(i => i.RowVal.ToString()).Distinct();
 
-        public IEnumerable<string> Groups => _items.Select(i => i.GroupVal.ToString()).Distinct();
+        public IEnumerable<string> Groups => _itemsInfo.Select(i => i.GroupVal.ToString()).Distinct();
     }
 }

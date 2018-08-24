@@ -96,9 +96,9 @@ namespace TestDataSet
                 new Person("UK", 50, "Female", 5000)
             };
 
-            Func<List<Person>, double> aggregateFunc = peopleList => { return peopleList.Average(p => p.GrossSalary); };
+            Func<IEnumerable<Person>, double> aggregateFunc = peopleList => { return peopleList.Average(p => p.GrossSalary); };
 
-            var obj = new MyDataSet<double>(persons, "Country", "Age", aggregateFunc);
+            var obj = new MyDataSet<Person, double>(persons, "Country", "Age", aggregateFunc);
             //foreach (var country in obj.Countries)
             //    foreach (var age in obj.Ages)
             //        foreach (var gender in obj.Genders)
