@@ -8,7 +8,7 @@ namespace TestDataSet
 {
     public class Item<T>
     {
-        public Item(T value, object rowVal, object groupVal)
+        public Item(T value, string rowVal, string groupVal)
         {
             Value = value;
             RowVal = rowVal;
@@ -16,7 +16,7 @@ namespace TestDataSet
         }
 
         public T Value;
-        public object RowVal;
-        public object GroupVal;
+        public string RowVal;
+        public string GroupVal;
     }
 }

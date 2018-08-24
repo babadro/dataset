@@ -115,7 +115,7 @@ namespace TestDataSet
 
             foreach (var country in obj.Rows)
                 foreach (var age in obj.Groups)
-                    Console.WriteLine($"{country} age: {age} average: {obj.Data[new[] {country, age}]}");
+                    Console.WriteLine($"{country} age: {age} average: {obj.Data[string.Concat(country, age)]}");
 
             Console.ReadLine();
         }

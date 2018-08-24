@@ -14,7 +14,7 @@ namespace TestDataSet
         //private Dictionary<(string, int), double> _average;
         //private Dictionary<(string, string, int), double> _average2;
         //private Dictionary<string, object> _results;
-        public Dictionary<object[], T> Data;
+        public Dictionary<string, T> Data;
         public List<object> Data2;
         //private Func<List<Person>, T> _aggregateFunc;
         //private string _row;
@@ -49,11 +49,11 @@ namespace TestDataSet
                 throw new ArgumentException($"Row {group} hasn't been found.", group);
 
             //_persons = persons;
-            Data = new Dictionary<object[], T>();
+            Data = new Dictionary<string, T>();
             //_aggregateFunc = aggregateFunc;
             //_row = row;
             //_group = group;
-            _items = persons.Select(item => new Item<Person>(item, rowInfo.GetValue(item), groupInfo.GetValue(item)));
+            _items = persons.Select(item => new Item<Person>(item, rowInfo.GetValue(item).ToString(), groupInfo.GetValue(item).ToString()));
             foreach (var rowVal in Rows)
                 foreach (var groupVal in Groups)
                     SetValue(rowVal, groupVal, GetValue(rowVal, groupVal, aggregateFunc));
@@ -84,9 +84,9 @@ namespace TestDataSet
         //        .Average(p => p.GrossSalary);
         //}
 
-        public T GetValue(object prop1Val, object prop2Val, Func<List<Person>, T> aggregateFunc)
+        public T GetValue(string prop1Val, string prop2Val, Func<List<Person>, T> aggregateFunc)
         {
-            var input = _items.Where(item => Equals(item.RowVal, prop1Val) && Equals(item.GroupVal, prop2Val)).Select(item => item.Value).ToList();
+         var input = _items.Where(item => string.Equals(item.RowVal.ToString(), prop1Val) && string.Equals(item.GroupVal.ToString(), prop2Val)).Select(item => item.Value).ToList();
             var result = aggregateFunc(input);
             return result;
         }
@@ -99,7 +99,8 @@ namespace TestDataSet
 
         public void SetValue(object row, object group, T value)
         {
-            Data[new[] {row, group}] = value;
+            var key = string.Concat(row, group);
+            Data[key] = value;
         }
 
         public IEnumerable<string> Rows => _items.Select(i => i.RowVal.ToString()).Distinct();
