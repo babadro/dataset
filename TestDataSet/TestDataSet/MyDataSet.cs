@@ -13,17 +13,20 @@ namespace TestDataSet
         public Dictionary<string, T2> Data;
         private readonly IEnumerable<Item<T1>> _itemsInfo;
 
-        public MyDataSet(IEnumerable<T1> items, string row, string group, Func<IEnumerable<T1>, T2> aggregateFunc)
+        public MyDataSet(IEnumerable<T1> items, Func<IEnumerable<T1>, T2> aggregateFunc, string row, params string[] groups)
         {
             if (items == null)
                 throw new ArgumentNullException(nameof(items));
             if (row == null)
                 throw new ArgumentNullException(nameof(row));
-            if (group == null)
-                throw new ArgumentNullException(nameof(group));
-
+            if (groups == null)
+                throw new ArgumentNullException(nameof(groups));
+            if ()
 
             var rowInfo = typeof(Person).GetProperty(row);
+            var groupInfoList;
+            foreach (var group in groups)
+                groupInfoList.
             var groupInfo = typeof(Person).GetProperty(group);
 
             if (rowInfo == null)
