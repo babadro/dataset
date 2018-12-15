@@ -8,20 +8,26 @@ namespace TestDataSet2
     public class MyDataSet
     {
         private Func<IEnumerable<Person>, double> _aggregateFunc;
+        private List<Row> _table;
         
-        public MyDataSet(IEnumerable<Person> items, string[] rows, string[] cols, Func<IEnumerable<Person>, double> aggregateFunc)
+        public MyDataSet(IEnumerable<Person> items, string[] rowNames, string[] cols, Func<IEnumerable<Person>, double> aggregateFunc)
         {
             _aggregateFunc = aggregateFunc;
+            foreach (var rowName in rowNames)
+            {
+                var cells
+                var row = new Row() { Name = rowName };
+            }
         }
 
-        private double GetResult(List<Person> items, List<string> groups)
+        private double GetResult(List<Person> items, List<string> colNames)
         {
-            if (groups.Count == 0)
+            if (colNames.Count == 0)
                 return _aggregateFunc(items);
 
-            groups.RemoveAt(0);
+            colNames.RemoveAt(0);
             items.RemoveAt(0); // Mocking filtering items;
-            return GetResult(items, groups);
+            return GetResult(items, colNames);
         }
     }
 }

@@ -8,6 +8,8 @@ namespace TestDataSet2
     {
         static void Main(string[] args)
         {
+            //(string[], string)[] prototypeInnerDataStructure;
+            var rows = new List<Row>();
             var persons = new List<Person>
             {
                 #region "big data"
